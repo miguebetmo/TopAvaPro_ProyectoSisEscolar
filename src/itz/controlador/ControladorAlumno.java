@@ -15,7 +15,7 @@ import itz.vista.VentanaAlumno;
 
 /**
  *
- * @author marco
+ * @author miguel
  */
 public class ControladorAlumno {
 
