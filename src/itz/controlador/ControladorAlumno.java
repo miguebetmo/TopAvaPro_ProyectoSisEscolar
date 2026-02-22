@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import itz.modelo.Alumno;
 import itz.modelo.Calificacion;
@@ -13,12 +14,7 @@ import itz.modelo.Kardex;
 import itz.modelo.Materia;
 import itz.vista.VentanaAlumno;
 
-/**
- *
- * @author miguel
- */
 public class ControladorAlumno {
-
 
     private Alumno modeloAlumno;
     private VentanaAlumno vistaAlumno;
@@ -29,11 +25,11 @@ public class ControladorAlumno {
     }
 
     // CARGAR MATERIAS
-    public void cargarMateria() {
+    public void cargarMaterias() {
         String archivo = "materias_" + modeloAlumno.getMatricula() + ".dat";
-        ArrayList<Materia> materias = (ArrayList<Materia>) leerObjeto(archivo);
+        List<Materia> materias = (List<Materia>) leerObjeto(archivo);
 
-        if (materias != null) {
+        if (materias != null && !materias.isEmpty()) {
             vistaAlumno.mostrarMaterias(materias);
         } else {
             vistaAlumno.mostrarMensaje("No hay materias registradas.");
@@ -43,10 +39,10 @@ public class ControladorAlumno {
     // CARGAR CALIFICACIONES
     public void cargarCalificaciones() {
         String archivo = "calificaciones_" + modeloAlumno.getMatricula() + ".dat";
-        ArrayList<Calificacion> calificaciones =
-                (ArrayList<Calificacion>) leerObjeto(archivo);
+        List<Calificacion> calificaciones =
+                (List<Calificacion>) leerObjeto(archivo);
 
-        if (calificaciones != null) {
+        if (calificaciones != null && !calificaciones.isEmpty()) {
             vistaAlumno.mostrarCalificaciones(calificaciones);
         } else {
             vistaAlumno.mostrarMensaje("No hay calificaciones registradas.");
@@ -65,11 +61,13 @@ public class ControladorAlumno {
         }
     }
 
-    // METOD SERIALIZACION
+    // SERIALIZACIÓN
     private void guardarObjeto(Object obj, String archivo) {
         try (ObjectOutputStream oos =
                      new ObjectOutputStream(new FileOutputStream(archivo))) {
+
             oos.writeObject(obj);
+
         } catch (IOException e) {
             vistaAlumno.mostrarMensaje("Error al guardar datos.");
         }
@@ -78,10 +76,11 @@ public class ControladorAlumno {
     private Object leerObjeto(String archivo) {
         try (ObjectInputStream ois =
                      new ObjectInputStream(new FileInputStream(archivo))) {
+
             return ois.readObject();
+
         } catch (IOException | ClassNotFoundException e) {
             return null;
         }
     }
-    
 }
