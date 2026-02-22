@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 import java.util.ArrayList;
 
 import itz.modelo.Alumno;
@@ -17,35 +18,38 @@ import itz.vista.VentanaProfesor;
  *
  * @author miguel
  */
+
 public class ControladorProfesor {
     
-    private Profesor  modeloProfesor;
-    private VentanaProfesor  vistaProfesor;
+    private Profesor modeloProfesor;
+    private VentanaProfesor vistaProfesor;
 
-    public ControladorProfesor (Profesor modeloProfesor, VentanaProfesor vistaProfesor) {
-       this.modeloProfesor = modeloProfesor;
-       this.vistaProfesor = vistaProfesor;
-
+    public ControladorProfesor(Profesor modeloProfesor, VentanaProfesor vistaProfesor) {
+        this.modeloProfesor = modeloProfesor;
+        this.vistaProfesor = vistaProfesor;
     }
-    public void cargarAlumno () {
+
+    public void cargarAlumno() {
         String archivo = "alumnos_" + modeloProfesor.getNumEmpleado() + ".dat";
-            ArrayList<Alumno> alumnos = (ArrayList<Alumno>) leerObjeto(archivo);
-            if (alumnos != null){
-                vistaProfesor.mostrarAlumnos(alumnos);
-            } else {
-                vistaProfesor.mostrarMensaje("No hay alumnos asignados");
-            }
+        
+        List<Alumno> alumnos = (List<Alumno>) leerObjeto(archivo);
+        
+        if (alumnos != null) {
+            vistaProfesor.mostrarAlumnos(alumnos);
+        } else {
+            vistaProfesor.mostrarMensaje("No hay alumnos asignados");
+        }
     }
 
     public void registrarCalificaciones() {
-        ArrayList<Calificacion>  califs = vistaProfesor.obtenerCalificaciones();
+        List<Calificacion> califs = vistaProfesor.obtenerCalificaciones();
         String archivo = "calificaciones_prof_" + modeloProfesor.getNumEmpleado() + ".dat";
 
         guardarObjeto(califs, archivo);
         vistaProfesor.mostrarMensaje("Calificaciones Guardadas Correctamente");
     }
 
-    public void cargarHorario () {
+    public void cargarHorario() {
         String archivo = "horario_" + modeloProfesor.getNumEmpleado() + ".dat";
         Horario horario = (Horario) leerObjeto(archivo);
 
@@ -56,7 +60,7 @@ public class ControladorProfesor {
         }
     }
 
-     private void guardarObjeto(Object obj, String archivo) {
+    private void guardarObjeto(Object obj, String archivo) {
         try (ObjectOutputStream oos =
                      new ObjectOutputStream(new FileOutputStream(archivo))) {
             oos.writeObject(obj);
@@ -73,5 +77,4 @@ public class ControladorProfesor {
             return null;
         }
     }
-
 }
