@@ -1,12 +1,5 @@
 package itz.controlador;
 
-/**
- *
- * @author miguel
- */
-public class ControladorInscripcion {
-    package itz.controlador;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
